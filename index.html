@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Antivirus Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ---------- Top navigation (same on every page) ---------- -->
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-mark">
+    <img src="{{ url_for('static', filename='logo.png') }}"
+         alt="Antivirus Logo"
+         style="width:42px; height:42px; max-width:42px; max-height:42px; object-fit:contain; display:block;">
+</span>
+            Antivirus Scanner
+        </a>
+        <nav class="site-nav">
+            <a href="{{ url_for('index') }}" class="active">Home</a>
+            <a href="{{ url_for('scan') }}">Scan files</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('feedback') }}">Feedback</a>
+        </nav>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <section class="hero">
+        <h1>SecureScan – Intelligent File Threat Detection System</h1>
+        <p class="hero-text">
+            Select any number of files. Each one is read, fingerprinted with
+            SHA-256 and compared with a list of hashes that are already known
+            to belong to malware. Nothing you upload is ever opened or run.
+        </p>
+        <a class="button button-primary" href="{{ url_for('scan') }}">Scan files</a>
+    </section>
+
+    <section class="stat-row">
+        <div class="stat">
+            <span class="stat-number">{{ total_scanned }}</span>
+            <span class="stat-label">files scanned so far</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">{{ known_hashes }}</span>
+            <span class="stat-label">known malicious hashes loaded</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">SHA-256</span>
+            <span class="stat-label">hashing algorithm used</span>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>How a scan works</h2>
+        <ol class="steps">
+            <li>You select one or more files on the scan page.</li>
+            <li>Each file is saved into the <code>uploads</code> folder with a safe name.</li>
+            <li>The file is read in 4096-byte blocks and a SHA-256 hash is built.</li>
+            <li>That hash is compared with the known-malicious hash list.</li>
+            <li>The result is shown on screen and saved in the scan history.</li>
+        </ol>
+    </section>
+
+    <p class="disclaimer">
+        This is a basic hash-based antivirus scanner built as a student project.
+        It detects only malware whose exact hash is already in the list.
+        A result of <strong>Safe</strong> means no known-malicious hash matched,
+        not that the file is guaranteed virus free.
+    </p>
+
+</main>
+
+<footer class="site-footer">
+    <div class="wrap">Diploma CSE / CME mini project &middot; Flask + SQLite + SHA-256</div>
+</footer>
+
+</body>
+</html>

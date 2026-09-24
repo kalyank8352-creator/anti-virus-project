@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scan results - Antivirus Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-mark">AV</span>
+            Antivirus Scanner
+        </a>
+        <nav class="site-nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('scan') }}">Scan files</a>
+            <a href="{{ url_for('history') }}">History</a>
+        </nav>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <h1 class="page-title">Scan results</h1>
+
+    <!-- ---------- NOTIFICATION (Feature 2) ---------- -->
+    {% if summary.malicious > 0 %}
+        <div class="notice notice-danger">
+            <strong>Warning: malicious file detected.</strong>
+            <ul>
+                {% for name in summary.malicious_files %}
+                    <li>{{ name }}</li>
+                {% endfor %}
+            </ul>
+            Do not open these files. Delete them from the uploads folder.
+        </div>
+    {% elif summary.suspicious > 0 %}
+        <div class="notice notice-warning">
+            <strong>No known malicious hash matched, but some files need care:</strong>
+            <ul>
+                {% for name in summary.suspicious_files %}
+                    <li>{{ name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div class="notice notice-safe">
+            <strong>Scan finished. No known malicious hashes were found.</strong>
+        </div>
+    {% endif %}
+
+    <!-- ---------- SUMMARY COUNTS ---------- -->
+    <section class="summary-row">
+        <div class="summary-box">
+            <span class="summary-number">{{ summary.total }}</span>
+            <span class="summary-label">total files</span>
+        </div>
+        <div class="summary-box is-safe">
+            <span class="summary-number">{{ summary.safe }}</span>
+            <span class="summary-label">safe</span>
+        </div>
+        <div class="summary-box is-suspicious">
+            <span class="summary-number">{{ summary.suspicious }}</span>
+            <span class="summary-label">suspicious</span>
+        </div>
+        <div class="summary-box is-malicious">
+            <span class="summary-number">{{ summary.malicious }}</span>
+            <span class="summary-label">malicious</span>
+        </div>
+    </section>
+
+    <!-- ---------- RESULT TABLE ---------- -->
+    <div class="card table-card">
+      <div class="table-scroll">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>File name</th>
+                    <th>File type</th>
+                    <th>SHA-256 hash</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in results %}
+                <tr>
+                    <td class="cell-name">{{ item.filename }}</td>
+                    <td>{{ item.file_type }}</td>
+                    <td class="hash">{{ item.file_hash }}</td>
+                    <td>
+                        <span class="tag tag-{{ item.result|lower }}">{{ item.result }}</span>
+                        <span class="reason">{{ item.reason }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+        Basic hash-based scanner. <strong>Safe</strong> means no known-malicious hash matched;
+        it is not a guarantee that the file is virus free.
+    </p>
+
+    <a class="button button-primary" href="{{ url_for('scan') }}">Scan more files</a>
+    <a class="button button-quiet" href="{{ url_for('history') }}">Open scan history</a>
+
+</main>
+
+<footer class="site-footer">
+    <div class="wrap">Diploma CSE / CME mini project &middot; Flask + SQLite + SHA-256</div>
+</footer>
+
+</body>
+</html>

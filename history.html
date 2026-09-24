@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scan history - Antivirus Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-mark">AV</span>
+            <span>Antivirus Scanner</span>
+        </a>
+        <nav class="site-nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('scan') }}">Scan files</a>
+            <a href="{{ url_for('history') }}" class="active">History</a>
+        </nav>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <div class="page-head">
+        <div>
+            <h1 class="page-title">Scan history</h1>
+            <p class="page-note">Every scanned file is stored as its own record. Newest first.</p>
+        </div>
+        {% if rows %}
+            <form action="{{ url_for('clear_history') }}" method="POST"
+                  onsubmit="return confirm('Delete the whole scan history?');">
+                <button type="submit" class="button button-quiet">Clear history</button>
+            </form>
+        {% endif %}
+    </div>
+
+    {% if rows %}
+
+    <!-- ================= CHARTS ================= -->
+    <section class="chart-grid">
+
+        <!-- ---------- Donut chart: results ---------- -->
+        <!-- The donut is one SVG circle per result. Each circle uses
+             stroke-dasharray to draw only its own slice of the ring. -->
+        <div class="card chart-card">
+            <h2 class="card-title">Results at a glance</h2>
+
+            <div class="donut-holder">
+                <svg class="donut" viewBox="0 0 200 200" role="img"
+                     aria-label="Share of safe, suspicious and malicious files">
+                    <!-- rotate(-90) makes the first slice start at 12 o'clock -->
+                    <g transform="rotate(-90 100 100)">
+                    <circle class="donut-track" cx="100" cy="100" r="70"></circle>
+                    {% for slice in charts.donut %}
+                        <circle class="donut-slice slice-{{ slice.label|lower }}"
+                                cx="100" cy="100" r="70"
+                                stroke-dasharray="{{ slice.dash }} {{ slice.gap }}"
+                                stroke-dashoffset="{{ slice.offset }}">
+                            <title>{{ slice.label }}: {{ slice.count }} ({{ slice.percent }}%)</title>
+                        </circle>
+                    {% endfor %}
+                    </g>
+                    <text class="donut-value" x="100" y="96">{{ charts.clean_percent }}%</text>
+                    <text class="donut-caption" x="100" y="118">clean</text>
+                </svg>
+
+                <ul class="legend">
+                    {% for slice in charts.donut %}
+                        <li>
+                            <span class="swatch swatch-{{ slice.label|lower }}"></span>
+                            <span class="legend-label">{{ slice.label }}</span>
+                            <span class="legend-value">{{ slice.count }} &middot; {{ slice.percent }}%</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <p class="card-foot">{{ charts.total }} files scanned in total</p>
+        </div>
+
+        <!-- ---------- Bar chart: file types ---------- -->
+        <!-- Each bar is a plain <div> whose width comes from Python. -->
+        <div class="card chart-card">
+            <h2 class="card-title">Most scanned file types</h2>
+
+            <div class="bars">
+                {% for bar in charts.bars %}
+                    <div class="bar-row">
+                        <span class="bar-label" title="{{ bar.label }}">{{ bar.label }}</span>
+                        <span class="bar-track">
+                            <span class="bar-fill" style="width: {{ bar.width }}%"></span>
+                        </span>
+                        <span class="bar-value">{{ bar.count }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <p class="card-foot">Top {{ charts.bars|length }} of the file types in your history</p>
+        </div>
+    </section>
+
+    <!-- ---------- Count strip ---------- -->
+    <section class="summary-row">
+        <div class="summary-box">
+            <span class="summary-number">{{ charts.total }}</span>
+            <span class="summary-label">files scanned</span>
+        </div>
+        <div class="summary-box is-safe">
+            <span class="summary-number">{{ charts.counts["Safe"] }}</span>
+            <span class="summary-label">safe</span>
+        </div>
+        <div class="summary-box is-suspicious">
+            <span class="summary-number">{{ charts.counts["Suspicious"] }}</span>
+            <span class="summary-label">suspicious</span>
+        </div>
+        <div class="summary-box is-malicious">
+            <span class="summary-number">{{ charts.counts["Malicious"] }}</span>
+            <span class="summary-label">malicious</span>
+        </div>
+    </section>
+
+    <!-- ================= TABLE ================= -->
+    <div class="card table-card">
+        <div class="table-scroll">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>File name</th>
+                        <th>File type</th>
+                        <th>SHA-256 hash</th>
+                        <th>Result</th>
+                        <th>Scanned on</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <td class="cell-id">{{ row["id"] }}</td>
+                        <td class="cell-name">{{ row["filename"] }}</td>
+                        <td>{{ row["file_type"] or "Unknown" }}</td>
+                        <td class="hash">{{ row["file_hash"] }}</td>
+                        <td><span class="tag tag-{{ (row['result'] or 'error')|lower }}">{{ row["result"] }}</span></td>
+                        <td class="cell-time">{{ row["scan_time"] or "-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% else %}
+        <div class="card empty-state">
+            <p class="empty-title">Nothing scanned yet</p>
+            <p>Once you scan some files, the charts and the full record appear here.</p>
+            <a class="button button-primary" href="{{ url_for('scan') }}">Scan your first files</a>
+        </div>
+    {% endif %}
+
+</main>
+
+<footer class="site-footer">
+    <div class="wrap">Diploma CSE / CME mini project &middot; Flask + SQLite + SHA-256</div>
+</footer>
+
+</body>
+</html>

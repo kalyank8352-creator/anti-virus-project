@@ -1,0 +1,649 @@
+/* =========================================================
+   Antivirus Scanner - stylesheet
+   ---------------------------------------------------------
+   All colours, shadows and spacing values live in one place
+   (the :root block) so the whole look can be changed from
+   the top of this file.
+   ========================================================= */
+
+:root {
+    /* Surfaces */
+    --page:        #f1f4f8;
+    --panel:       #ffffff;
+    --panel-tint:  #f7f9fc;
+
+    /* Text */
+    --ink:         #0e1a26;
+    --ink-soft:    #5a6b7b;
+    --ink-faint:   #8494a3;
+
+    /* Lines and brand */
+    --line:        #e3e9f0;
+    --line-strong: #cfd9e4;
+    --navy:        #12334d;
+    --navy-deep:   #0b2438;
+    --primary:     #1b5e8c;
+    --primary-dark:#144a6f;
+
+    /* Result colours */
+    --safe:        #10735a;
+    --safe-soft:   #e3f4ee;
+    --suspicious:  #a9640c;
+    --suspicious-soft: #fdf1df;
+    --malicious:   #b02a22;
+    --malicious-soft:  #fceceb;
+
+    /* Depth */
+    --shadow-sm: 0 1px 2px rgba(14, 26, 38, 0.06);
+    --shadow-md: 0 6px 18px -8px rgba(14, 26, 38, 0.22),
+                 0 1px 3px rgba(14, 26, 38, 0.05);
+
+    --radius:    14px;
+    --radius-sm: 9px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.25; letter-spacing: -0.015em; }
+
+code {
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+    background: var(--panel-tint);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 5px;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ---------------- Header and navigation ---------------- */
+.site-header {
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+}
+
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.site-nav { display: flex; gap: 6px; }
+
+.site-nav a {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.site-nav a:hover { color: #ffffff; background: rgba(255, 255, 255, 0.10); }
+
+.site-nav a.active {
+    color: var(--navy-deep);
+    background: #ffffff;
+    font-weight: 600;
+}
+
+/* ---------------- Home page ---------------- */
+.hero { padding: 56px 0 8px; max-width: 42rem; }
+
+.hero h1 { margin: 0 0 14px; font-size: 2.3rem; }
+
+.hero-text { color: var(--ink-soft); font-size: 1.05rem; margin-bottom: 26px; }
+
+.stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 30px 0;
+}
+
+.stat {
+    flex: 1 1 190px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 20px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+}
+
+.stat-label { color: var(--ink-soft); font-size: 0.9rem; }
+
+.steps { padding-left: 22px; color: var(--ink-soft); }
+.steps li { margin-bottom: 8px; padding-left: 4px; }
+
+/* ---------------- Shared blocks ---------------- */
+.page-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.page-title { margin: 40px 0 6px; font-size: 1.95rem; }
+.page-head .page-title { margin-top: 40px; }
+.page-note { margin: 0; color: var(--ink-soft); }
+
+/* .card and .panel look the same; both names are used in the templates */
+.card,
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 26px;
+    margin-bottom: 24px;
+}
+
+.card-title {
+    margin: 0 0 20px;
+    font-size: 1.05rem;
+    font-weight: 650;
+    color: var(--ink);
+}
+
+.card-foot {
+    margin: 18px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+}
+
+.panel h2 { margin-top: 0; font-size: 1.15rem; }
+
+.disclaimer {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    background: var(--panel-tint);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    margin: 26px 0;
+}
+
+/* ---------------- Buttons ---------------- */
+.button {
+    display: inline-block;
+    padding: 11px 22px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 0.97rem;
+    font-family: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.button:active { transform: translateY(1px); }
+
+.button-primary {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+}
+
+.button-primary:hover { background: var(--primary-dark); }
+.button-primary:disabled { background: var(--ink-faint); cursor: progress; }
+
+.button-quiet {
+    background: var(--panel);
+    color: var(--primary);
+    border-color: var(--line-strong);
+}
+
+.button-quiet:hover { background: var(--panel-tint); }
+
+.button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid #f0b429;
+    outline-offset: 2px;
+}
+
+/* ---------------- Scan form ---------------- */
+.file-drop {
+    display: block;
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius);
+    padding: 30px 24px;
+    text-align: center;
+    cursor: pointer;
+    background: var(--panel-tint);
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.file-drop:hover { border-color: var(--primary); background: #f2f7fb; }
+
+.file-drop input[type="file"] { display: block; margin: 0 auto 16px; }
+
+.file-drop-title { display: block; font-weight: 650; font-size: 1.02rem; }
+
+.file-drop-hint {
+    display: block;
+    color: var(--ink-soft);
+    font-size: 0.89rem;
+    margin-top: 4px;
+}
+
+.file-count { font-weight: 650; margin: 22px 0 8px; }
+
+.file-list {
+    list-style: none;
+    margin: 0 0 22px;
+    padding: 0;
+    max-height: 230px;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+}
+
+.file-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 14px;
+    font-size: 0.93rem;
+}
+
+/* hide the empty box before any file is chosen */
+.file-list:empty { display: none; }
+
+.file-list li:nth-child(even) { background: var(--panel-tint); }
+.file-list li:last-child { border-bottom: none; }
+.file-list .file-meta { color: var(--ink-faint); white-space: nowrap; }
+
+/* ---------------- Notifications ---------------- */
+.notice {
+    border: 1px solid transparent;
+    border-left-width: 5px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    padding: 16px 20px;
+    margin: 0 0 22px;
+}
+
+.notice ul { margin: 10px 0 10px 20px; padding: 0; }
+.notice li { margin-bottom: 3px; }
+
+.notice-safe {
+    background: var(--safe-soft);
+    border-color: rgba(16, 115, 90, 0.25);
+    border-left-color: var(--safe);
+    color: #0a5544;
+}
+
+.notice-warning {
+    background: var(--suspicious-soft);
+    border-color: rgba(169, 100, 12, 0.25);
+    border-left-color: var(--suspicious);
+    color: #86500a;
+}
+
+.notice-danger {
+    background: var(--malicious-soft);
+    border-color: rgba(176, 42, 34, 0.25);
+    border-left-color: var(--malicious);
+    color: #8c201a;
+}
+
+/* One short attention pulse when a malicious file appears */
+.notice-danger.pulse { animation: pulse 0.9s ease-in-out 2; }
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(176, 42, 34, 0); }
+    50%      { box-shadow: 0 0 0 7px rgba(176, 42, 34, 0.15); }
+}
+
+/* ---------------- Summary counts ---------------- */
+.summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.summary-box {
+    flex: 1 1 140px;
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 20px;
+    overflow: hidden;
+}
+
+/* A thin coloured strip on the left edge instead of a heavy top border */
+.summary-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--line-strong);
+}
+
+.summary-box.is-safe::before       { background: var(--safe); }
+.summary-box.is-suspicious::before { background: var(--suspicious); }
+.summary-box.is-malicious::before  { background: var(--malicious); }
+
+.summary-number {
+    display: block;
+    font-size: 1.9rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.summary-label { color: var(--ink-soft); font-size: 0.87rem; }
+
+/* =========================================================
+   CHARTS (history page)
+   ========================================================= */
+.chart-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 4px;
+}
+
+.chart-card {
+    flex: 1 1 340px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- Donut chart ---------- */
+.donut-holder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 26px;
+    flex: 1;
+}
+
+.donut {
+    width: 172px;
+    height: 172px;
+    flex-shrink: 0;
+}
+
+.donut-track {
+    fill: none;
+    stroke: #edf1f6;
+    stroke-width: 26;
+}
+
+.donut-slice {
+    fill: none;
+    stroke-width: 26;
+    stroke-linecap: butt;
+}
+
+.slice-safe       { stroke: var(--safe); }
+.slice-suspicious { stroke: var(--suspicious); }
+.slice-malicious  { stroke: var(--malicious); }
+.slice-error      { stroke: var(--ink-faint); }
+
+/* The two labels sit in the hole of the ring */
+.donut-value,
+.donut-caption { text-anchor: middle; }
+
+.donut-value {
+    font-size: 31px;
+    font-weight: 650;
+    fill: var(--ink);
+    letter-spacing: -0.02em;
+}
+
+.donut-caption {
+    font-size: 13px;
+    fill: var(--ink-faint);
+}
+
+.legend { list-style: none; margin: 0; padding: 0; min-width: 160px; flex: 1; }
+
+.legend li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+}
+
+.legend li:last-child { border-bottom: none; }
+
+.swatch {
+    margin-right: 2px;   /* small safety gap for older browsers */
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.swatch-safe       { background: var(--safe); }
+.swatch-suspicious { background: var(--suspicious); }
+.swatch-malicious  { background: var(--malicious); }
+.swatch-error      { background: var(--ink-faint); }
+
+.legend-label { flex: 1; }
+.legend-value { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* ---------- Bar chart ---------- */
+.bars { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bar-label {
+    flex: 0 0 34%;
+    padding-right: 10px;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bar-track {
+    flex: 1 1 auto;
+    height: 12px;
+    background: #edf1f6;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary) 0%, #2f83bb 100%);
+    /* grows into place once when the page opens */
+    animation: grow 0.6s ease-out;
+}
+
+@keyframes grow { from { width: 0 !important; } }
+
+.bar-value {
+    flex: 0 0 auto;
+    padding-left: 10px;
+    font-size: 0.88rem;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    min-width: 1.5rem;
+    text-align: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .notice-danger.pulse,
+    .bar-fill { animation: none; }
+}
+
+/* ---------------- Tables ---------------- */
+.table-card { padding: 0; overflow: hidden; }
+.table-scroll { overflow-x: auto; }
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.data-table th,
+.data-table td {
+    text-align: left;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+.data-table th {
+    background: var(--panel-tint);
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line-strong);
+}
+
+.data-table tbody tr:hover { background: #f8fbfd; }
+.data-table tr:last-child td { border-bottom: none; }
+
+.cell-id   { color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.cell-name { font-weight: 600; }
+.cell-time { color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Hashes are data, so a monospace face keeps the characters aligned */
+.hash {
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    word-break: break-all;
+    max-width: 250px;
+    color: var(--ink-faint);
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 11px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.tag-safe       { background: var(--safe-soft);       color: var(--safe);       border-color: rgba(16,115,90,0.25); }
+.tag-suspicious { background: var(--suspicious-soft); color: var(--suspicious); border-color: rgba(169,100,12,0.25); }
+.tag-malicious  { background: var(--malicious-soft);  color: var(--malicious);  border-color: rgba(176,42,34,0.25); }
+.tag-error      { background: var(--panel-tint);      color: var(--ink-soft);   border-color: var(--line-strong); }
+
+.reason {
+    display: block;
+    color: var(--ink-faint);
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* ---------------- Empty state ---------------- */
+.empty-state { text-align: center; padding: 48px 26px; }
+.empty-title { font-size: 1.15rem; font-weight: 650; margin: 0 0 6px; }
+.empty-state p { color: var(--ink-soft); margin-top: 0; }
+.empty-state .button { margin-top: 14px; }
+
+/* ---------------- Footer ---------------- */
+.site-footer {
+    margin-top: 52px;
+    padding: 22px 0;
+    background: #e7ecf2;
+    border-top: 1px solid var(--line-strong);
+    color: var(--ink-faint);
+    font-size: 0.86rem;
+}
+
+/* ---------------- Small screens ---------------- */
+@media (max-width: 680px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding-top: 38px; }
+    .hero h1 { font-size: 1.65rem; }
+    .page-title { font-size: 1.5rem; }
+    .card, .panel { padding: 20px; }
+    .site-nav { flex-wrap: wrap; }
+    .site-nav a { padding: 6px 12px; font-size: 0.9rem; }
+    .donut-holder { justify-content: center; }
+    .bar-label { flex-basis: 40%; }
+    .button-quiet { margin-top: 10px; }
+}

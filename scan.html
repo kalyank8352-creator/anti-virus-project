@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scan files - Antivirus Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="{{ url_for('index') }}">
+    <span class="brand-mark">
+    <img src="{{ url_for('static', filename='logo.png') }}"
+         alt="Antivirus Logo"
+         width="25"
+         height="25"
+         style="width:25px !important; height:25px !important; max-width:25px !important; max-height:25px !important;">
+</span>
+</a>
+  <nav class="site-nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('scan') }}" class="active">Scan files</a>
+            <a href="{{ url_for('history') }}">History</a>
+        </nav>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <h1 class="page-title">Scan files</h1>
+    <p class="page-note">
+        Basic hash-based scanner. Files are read for hashing only - they are never opened or run.
+    </p>
+
+    <!-- Error message coming from Flask (for example: no file selected) -->
+    {% if error %}
+        <div class="notice notice-warning">{{ error }}</div>
+    {% endif %}
+
+    <!-- ---------- Upload form ---------- -->
+    <!-- enctype="multipart/form-data" is required for file uploads.
+         The "multiple" attribute lets the user pick many files at once. -->
+    <form class="panel scan-form"
+          id="scanForm"
+          action="{{ url_for('scan') }}"
+          method="POST"
+          enctype="multipart/form-data"
+          data-max-mb="{{ max_upload_mb }}">
+
+        <label class="file-drop" for="files">
+            <input type="file" name="files" id="files" multiple>
+            <span class="file-drop-title">Choose files</span>
+            <span class="file-drop-hint">
+                You can select 2, 5, 10 or more files together &middot;
+                total size up to {{ max_upload_kb }} KB
+            </span>
+        </label>
+
+        <!-- JavaScript fills these two areas after files are selected -->
+        <p class="file-count" id="fileCount">Selected files: 0</p>
+        <ul class="file-list" id="fileList"></ul>
+
+        <button type="submit" class="button button-primary" id="scanButton">Scan files</button>
+    </form>
+
+    <!-- ---------- Results appear here without reloading the page ---------- -->
+    <div id="notificationArea"></div>
+    <div id="resultsArea"></div>
+
+</main>
+
+<footer class="site-footer">
+    <div class="wrap">Diploma CSE / CME mini project &middot; Flask + SQLite + SHA-256</div>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

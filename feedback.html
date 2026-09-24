@@ -1,0 +1,92 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Feedback - Antivirus Scanner</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="wrap header-inner">
+
+            <div class="brand">
+                <h1>Antivirus Scanner</h1>
+                <p>Secure • Scan • Protect</p>
+            </div>
+
+            <nav>
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('scan') }}">Scan File</a>
+                <a href="{{ url_for('history') }}">Scan History</a>
+                <a href="{{ url_for('feedback') }}" class="active">
+                    Feedback
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- Feedback Section -->
+    <main class="feedback-container">
+
+        <div class="feedback-card">
+
+            <h2>Share Your Feedback</h2>
+
+            <p class="feedback-subtitle">
+                Your feedback helps us improve our Antivirus Scanner.
+            </p>
+
+            <form action="{{ url_for('feedback') }}" method="POST">
+
+                <label for="comments">
+                    Feedback / Comments
+                </label>
+
+                <textarea
+                    id="comments"
+                    name="comments"
+                    rows="7"
+                    placeholder="Enter your feedback here..."
+                    required></textarea>
+
+                <button type="submit" class="feedback-btn">
+                    Submit Feedback
+                </button>
+
+            </form>
+
+            {% if message %}
+                <div class="success-message">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Antivirus Scanner | File Security System</p>
+    </footer>
+
+</body>
+</html>
+```
+
+### Important
+
+Ee HTML matrame add chesthe page kanipistundi. **Feedback database lo save avvali ante `app.py` lo `/feedback` route kuda add cheyyali.**
+
+Mee existing project lo `Home`, `Scan File`, `Scan History` already unnayi kabatti, next **`app.py` lo feedback database + route exact code** add cheddam.
