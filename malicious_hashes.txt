@@ -1,0 +1,3 @@
+# Optional extra list of known-malicious SHA-256 hashes.
+# One hash per line. Lines starting with # are ignored.
+# app.py reads this file automatically if it exists.
